@@ -1,0 +1,12 @@
+{
+  "carrier_id": "carrier_b",
+  "actions": {
+    "PAYMENT_AUTHORIZED_NOT_POSTED": {"action": "REFLOW", "autonomy": "auto_safe", "executor_allowed": true},
+    "SUBMIT_PAYMENT_MISSING": {"action": "RESUBMIT_PAYMENT", "autonomy": "auto_safe", "executor_allowed": true},
+    "PARTIAL_SHORT_PAYMENT": {"action": "RESUBMIT_BALANCE", "autonomy": "requires_approval", "executor_allowed": true},
+    "PAYMENT_DECLINED": {"action": "ESCALATE_NOTIFY", "autonomy": "no_auto_action", "executor_allowed": false},
+    "CREDIT_DENIED_HOLD": {"action": "ESCALATE", "autonomy": "no_auto_action", "executor_allowed": false},
+    "GATEWAY_ORDER_TIMEOUT_RACE": {"action": "REFLOW", "autonomy": "auto_safe", "executor_allowed": true},
+    "STALE_PENDING_ORDER_BLOCKING": {"action": "CANCEL_AND_REFLOW", "autonomy": "requires_approval", "executor_allowed": true}
+  }
+}

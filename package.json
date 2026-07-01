@@ -1,0 +1,19 @@
+{
+  "name": "payflow-recovery-agent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node node_demo/server.js",
+    "start:py": "py -3.11 python_backend/server.py",
+    "record:demo": "node node_demo/scripts/record-demo.mjs",
+    "test": "node node_demo/test/core.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "playwright": "^1.61.1"
+  }
+}

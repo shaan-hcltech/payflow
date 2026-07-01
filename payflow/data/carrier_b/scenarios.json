@@ -1,0 +1,79 @@
+[
+  {
+    "id": "cb-newline-auth-not-posted",
+    "demo_label": "Carrier B new-line recovery",
+    "expected_root_cause": "PAYMENT_AUTHORIZED_NOT_POSTED",
+    "cart": {"basket_ref": "CB-BASK-2001", "sales_motion": "NEW_LINE", "oms_order_id": "CB-ORD-3001", "subscriber_ref": "7735550201", "store_code": "CB-CHI-2", "parent_order_id": "CB-PARENT-401", "bundle_id": "BUNDLE-1", "application_ref": "CB-APP-1", "balance_due": 132.0, "captured_amount": 132.0, "basket_state": "PAYMENT_STUCK", "created_at": "2026-06-30T09:40:00", "failure_label": "Balance not settled"},
+    "payment_events": [{"basket_ref": "CB-BASK-2001", "try_index": 1, "processor_state": "AUTHORIZED", "authorized_value": 132.0, "ledger_posted": false, "processor_message": "APPROVED_NOT_LEDGERED", "created_at": "2026-06-30T09:41:00"}],
+    "order_state": {"oms_order_id": "CB-ORD-3001", "ord_status_code": "PAYMENT_WAIT", "hold_reason_code": "NOT_SETTLED", "blocking_order_ref": null},
+    "traces": [{"basket_ref": "CB-BASK-2001", "created_at": "2026-06-30T09:41:16", "component": "settlement-sync", "severity": "ERROR", "text": "Carrier B balance not settled after authorization"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "cb-upgrade-submit-missing",
+    "demo_label": "Carrier B submit missing",
+    "expected_root_cause": "SUBMIT_PAYMENT_MISSING",
+    "cart": {"basket_ref": "CB-BASK-2002", "sales_motion": "UPGRADE", "oms_order_id": "CB-ORD-3002", "subscriber_ref": "7735550202", "store_code": "CB-AUS-4", "parent_order_id": "CB-PARENT-402", "bundle_id": "BUNDLE-2", "application_ref": "CB-APP-2", "balance_due": 88.2, "captured_amount": 0.0, "basket_state": "PAYMENT_STUCK", "created_at": "2026-06-30T08:30:00", "failure_label": "Payment submit absent"},
+    "payment_events": [],
+    "order_state": {"oms_order_id": "CB-ORD-3002", "ord_status_code": "SUBMIT_WAIT", "hold_reason_code": "PAYMENT_SUBMIT_ABSENT", "blocking_order_ref": null},
+    "traces": [{"basket_ref": "CB-BASK-2002", "created_at": "2026-06-30T08:31:10", "component": "checkout-submit", "severity": "ERROR", "text": "payment submit absent for order completion"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "cb-fwa-partial",
+    "demo_label": "Carrier B short payment",
+    "expected_root_cause": "PARTIAL_SHORT_PAYMENT",
+    "cart": {"basket_ref": "CB-BASK-2003", "sales_motion": "FWA", "oms_order_id": "CB-ORD-3003", "subscriber_ref": "7735550203", "store_code": "CB-MIA-1", "parent_order_id": "CB-PARENT-403", "bundle_id": "BUNDLE-3", "application_ref": "CB-APP-3", "balance_due": 200.0, "captured_amount": 120.0, "basket_state": "PAYMENT_STUCK", "created_at": "2026-06-30T07:10:00", "failure_label": "Short pay"},
+    "payment_events": [{"basket_ref": "CB-BASK-2003", "try_index": 1, "processor_state": "PARTIAL", "authorized_value": 120.0, "ledger_posted": true, "processor_message": "PARTIAL_CAPTURE", "created_at": "2026-06-30T07:11:00"}],
+    "order_state": {"oms_order_id": "CB-ORD-3003", "ord_status_code": "PAYMENT_WAIT", "hold_reason_code": "SHORT_PAY", "blocking_order_ref": null},
+    "traces": [{"basket_ref": "CB-BASK-2003", "created_at": "2026-06-30T07:11:14", "component": "billing", "severity": "ERROR", "text": "short payment detected for completion"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "cb-newline-declined",
+    "demo_label": "Carrier B declined safety",
+    "expected_root_cause": "PAYMENT_DECLINED",
+    "cart": {"basket_ref": "CB-BASK-2004", "sales_motion": "NEW_LINE", "oms_order_id": "CB-ORD-3004", "subscriber_ref": "7735550204", "store_code": "CB-SEA-3", "parent_order_id": "CB-PARENT-404", "bundle_id": "BUNDLE-4", "application_ref": "CB-APP-4", "balance_due": 97.5, "captured_amount": 0.0, "basket_state": "PAYMENT_STUCK", "created_at": "2026-06-30T06:00:00", "failure_label": "Declined"},
+    "payment_events": [{"basket_ref": "CB-BASK-2004", "try_index": 1, "processor_state": "DECLINED", "authorized_value": 0.0, "ledger_posted": false, "processor_message": "CARD_DECLINED", "created_at": "2026-06-30T06:01:00"}],
+    "order_state": {"oms_order_id": "CB-ORD-3004", "ord_status_code": "PAYMENT_DECLINED", "hold_reason_code": "CARD_DECLINED", "blocking_order_ref": null},
+    "traces": [{"basket_ref": "CB-BASK-2004", "created_at": "2026-06-30T06:01:23", "component": "processor", "severity": "ERROR", "text": "payment declined by processor"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "cb-upgrade-credit",
+    "demo_label": "Carrier B credit hold",
+    "expected_root_cause": "CREDIT_DENIED_HOLD",
+    "cart": {"basket_ref": "CB-BASK-2005", "sales_motion": "UPGRADE", "oms_order_id": "CB-ORD-3005", "subscriber_ref": "7735550205", "store_code": "CB-DEN-2", "parent_order_id": "CB-PARENT-405", "bundle_id": "BUNDLE-5", "application_ref": "CB-APP-5", "balance_due": 410.0, "captured_amount": 410.0, "basket_state": "PAYMENT_STUCK", "created_at": "2026-06-30T05:00:00", "failure_label": "Credit hold"},
+    "payment_events": [{"basket_ref": "CB-BASK-2005", "try_index": 1, "processor_state": "AUTHORIZED", "authorized_value": 410.0, "ledger_posted": false, "processor_message": "APPROVED", "created_at": "2026-06-30T05:01:00"}],
+    "order_state": {"oms_order_id": "CB-ORD-3005", "ord_status_code": "HOLD", "hold_reason_code": "CREDIT_DENIED", "blocking_order_ref": null},
+    "traces": [{"basket_ref": "CB-BASK-2005", "created_at": "2026-06-30T05:01:21", "component": "risk", "severity": "ERROR", "text": "credit denied hold"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "DENIED"}
+  },
+  {
+    "id": "cb-fwa-race",
+    "demo_label": "Carrier B race condition",
+    "expected_root_cause": "GATEWAY_ORDER_TIMEOUT_RACE",
+    "cart": {"basket_ref": "CB-BASK-2006", "sales_motion": "FWA", "oms_order_id": "CB-ORD-3006", "subscriber_ref": "7735550206", "store_code": "CB-PHX-1", "parent_order_id": "CB-PARENT-406", "bundle_id": "BUNDLE-6", "application_ref": "CB-APP-6", "balance_due": 61.3, "captured_amount": 61.3, "basket_state": "PAYMENT_STUCK", "created_at": "2026-06-30T04:00:00", "failure_label": "Processor race"},
+    "payment_events": [{"basket_ref": "CB-BASK-2006", "try_index": 1, "processor_state": "AUTHORIZED", "authorized_value": 61.3, "ledger_posted": false, "processor_message": "OMS_TIMEOUT_AFTER_AUTH", "created_at": "2026-06-30T04:01:00"}],
+    "order_state": {"oms_order_id": "CB-ORD-3006", "ord_status_code": "PAYMENT_WAIT", "hold_reason_code": "OMS_TIMEOUT", "blocking_order_ref": null},
+    "traces": [{"basket_ref": "CB-BASK-2006", "created_at": "2026-06-30T04:01:33", "component": "oms-sync", "severity": "WARN", "text": "gateway order timeout race"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "cb-upgrade-pending",
+    "demo_label": "Carrier B pending blocker",
+    "expected_root_cause": "STALE_PENDING_ORDER_BLOCKING",
+    "cart": {"basket_ref": "CB-BASK-2007", "sales_motion": "UPGRADE", "oms_order_id": "CB-ORD-3007", "subscriber_ref": "7735550207", "store_code": "CB-NYC-2", "parent_order_id": "CB-PARENT-407", "bundle_id": "BUNDLE-7", "application_ref": "CB-APP-7", "balance_due": 180.0, "captured_amount": 180.0, "basket_state": "PAYMENT_STUCK", "created_at": "2026-06-30T03:00:00", "failure_label": "Pending blocker"},
+    "payment_events": [{"basket_ref": "CB-BASK-2007", "try_index": 1, "processor_state": "AUTHORIZED", "authorized_value": 180.0, "ledger_posted": true, "processor_message": "APPROVED", "created_at": "2026-06-30T03:01:00"}],
+    "order_state": {"oms_order_id": "CB-ORD-3007", "ord_status_code": "BLOCKED", "hold_reason_code": "STALE_PENDING", "blocking_order_ref": "CB-ORD-1888"},
+    "traces": [{"basket_ref": "CB-BASK-2007", "created_at": "2026-06-30T03:01:27", "component": "eligibility", "severity": "WARN", "text": "stale pending order blocking checkout"}],
+    "eligibility": {"inEligibility": {"pendingOrder": true}, "pendingOrderDetail": {"pendingOrderNumber": "CB-ORD-1888"}},
+    "activation_details": {"activationStatus": "READY"}
+  }
+]

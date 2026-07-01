@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PayFlow Recovery Agent</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">P</div>
+        <div>
+          <strong>PayFlow</strong>
+          <span>Recovery workspace</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Carrier</div>
+        <div class="menu-control" data-menu-root="carrier">
+          <button id="carrierTrigger" class="menu-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="trigger-main">Verizon (Order360)</span>
+            <span class="trigger-meta">Reference connector</span>
+          </button>
+          <div id="carrierMenu" class="menu-popover" role="listbox"></div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Demo path</div>
+        <div class="menu-control" data-menu-root="cart">
+          <button id="cartTrigger" class="menu-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="trigger-main">Select a cart</span>
+            <span class="trigger-meta">Scenario queue</span>
+          </button>
+          <div id="cartMenu" class="menu-popover wide" role="listbox"></div>
+        </div>
+      </div>
+
+      <div class="memory">
+        <div class="section-label">Session Memory</div>
+        <div><strong id="memRecovered">0</strong><span>Recovered</span></div>
+        <div><strong id="memEscalated">0</strong><span>Escalated</span></div>
+        <div><strong id="memRejected">0</strong><span>Rejected</span></div>
+      </div>
+
+      <button id="resetDemoBtn" class="reset-demo" type="button">Reset demo data</button>
+    </aside>
+
+    <main class="workspace">
+      <section class="content">
+        <header class="page-header">
+          <div>
+            <div class="eyebrow">Payment operations</div>
+            <h1>PayFlow Recovery Agent</h1>
+            <p>Agentic remediation for CP2 payment and order completion failures.</p>
+          </div>
+          <div id="activeCarrier" class="active-pill">Active carrier</div>
+        </header>
+
+        <section class="metrics">
+          <article><span>Stuck carts</span><strong id="metricCarts">0</strong></article>
+          <article><span>Amount at risk</span><strong id="metricRisk">$0</strong></article>
+          <article><span>Manual minutes</span><strong id="metricMinutes">0</strong></article>
+          <article><span>Runtime</span><strong>Python API</strong></article>
+        </section>
+
+        <section class="panel database-panel">
+          <div class="panel-title">
+            <div>
+              <h2>Failure queue</h2>
+              <span class="quiet">Click a row to inspect a cart</span>
+            </div>
+            <span class="view-pill">Database view</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Cart</th><th>Channel</th><th>Error</th><th>Risk</th></tr>
+              </thead>
+              <tbody id="queueBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="support-grid">
+          <section class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Failure intelligence</h2>
+                <span class="quiet">Selected cart, root cause, and evidence</span>
+              </div>
+            </div>
+            <div id="journey" class="failure-insight"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Impact calculator</h2>
+                <span class="quiet">Business case</span>
+              </div>
+            </div>
+            <div class="sliders">
+              <label>Daily stuck carts <input id="dailyCarts" type="range" min="50" max="5000" step="50" value="1200"></label>
+              <label>Average cart value <input id="avgValue" type="range" min="25" max="1000" step="5" value="180"></label>
+              <label>Minutes per cart <input id="manualMinutes" type="range" min="5" max="45" value="12"></label>
+            </div>
+            <div class="impact">
+              <div><span>Daily recovered</span><strong id="dailyRecovered">864</strong></div>
+              <div><span>Revenue protected</span><strong id="revenueProtected">$155,520</strong></div>
+              <div><span>Weekly hours saved</span><strong id="hoursSaved">1,210</strong></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="support-grid">
+          <section class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Batch mode</h2>
+                <span class="quiet">Run seeded queue simulation</span>
+              </div>
+              <button id="batchBtn" type="button">Run batch</button>
+            </div>
+            <div id="batchResult" class="batch">No batch run yet.</div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-title">
+              <div>
+                <h2>Carrier portability</h2>
+                <span class="quiet">One agent core, multiple order schemas</span>
+              </div>
+            </div>
+            <div class="portability-stats">
+              <div><strong>2</strong><span>Carriers connected</span></div>
+              <div><strong>1</strong><span>Shared agent core</span></div>
+              <div><strong>0</strong><span>Carrier-specific diagnosis branches</span></div>
+            </div>
+            <div class="adapter-flow" aria-label="Carrier schema adapter flow">
+              <span>Carrier raw schema</span>
+              <span>Canonical order model</span>
+              <span>Same recovery agent</span>
+            </div>
+            <details class="mapping-details">
+              <summary>View normalized fields</summary>
+              <table class="schema-table">
+                <tbody>
+                  <tr><th>Canonical</th><th>Verizon</th><th>Carrier B</th></tr>
+                  <tr><td>order_number</td><td>order_number</td><td>oms_order_id</td></tr>
+                  <tr><td>status_code</td><td>eo_stat_cd</td><td>ord_status_code</td></tr>
+                  <tr><td>master_order</td><td>master_ord_no</td><td>parent_order_id</td></tr>
+                  <tr><td>stack_id</td><td>nsa_stack_id</td><td>bundle_id</td></tr>
+                </tbody>
+              </table>
+            </details>
+          </section>
+        </section>
+      </section>
+
+      <aside class="inspector panel">
+        <div class="inspector-head">
+          <div>
+            <div class="eyebrow">Agent inspector</div>
+            <h2>Recovery run</h2>
+            <span class="quiet">Plan, tools, safety, approval, verification</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="inspectBtn" class="primary" type="button">Run investigation</button>
+          <button id="skipBtn" class="ghost" type="button" disabled>Skip animation</button>
+          <div class="menu-control" data-menu-root="override">
+            <button id="overrideTrigger" class="menu-trigger compact" type="button" aria-haspopup="listbox" aria-expanded="false" disabled>
+              <span class="trigger-main">Override action</span>
+              <span class="trigger-meta">Unavailable</span>
+            </button>
+            <div id="overrideMenu" class="menu-popover" role="listbox"></div>
+          </div>
+          <button id="approveBtn" type="button" disabled>Approve</button>
+          <button id="rejectBtn" type="button" disabled>Reject</button>
+        </div>
+
+        <div id="agentStatus" class="agent-status idle">
+          <span class="status-dot"></span>
+          <strong>Idle</strong>
+          <span>Ready to investigate the selected cart.</span>
+        </div>
+
+        <div id="summary" class="summary empty">Run investigation to open the agent timeline.</div>
+
+        <nav class="tabs">
+          <button class="tab active" type="button" data-tab="reasoning">Reasoning</button>
+          <button class="tab" type="button" data-tab="tools">Tools</button>
+          <button class="tab" type="button" data-tab="state">State</button>
+          <button class="tab" type="button" data-tab="escalation">Escalation</button>
+        </nav>
+
+        <div id="reasoning" class="tab-panel active"></div>
+        <div id="tools" class="tab-panel"></div>
+        <div id="state" class="tab-panel"></div>
+        <div id="escalation" class="tab-panel"></div>
+      </aside>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

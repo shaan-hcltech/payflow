@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { createStore, getQueue, inspect, runAgent } from "../payflowCore.js";
 
 const tests = [
-  ["Verizon scenarios match expected root cause", () => {
-    const store = createStore("verizon");
+  ["carrier_a scenarios match expected root cause", () => {
+    const store = createStore("carrier_a");
     for (const scenario of store.scenarios) {
       const order = getQueue(store)[store.scenarios.indexOf(scenario)];
       const run = inspect(store, order.cart_id);
@@ -20,7 +20,7 @@ const tests = [
     }
   }],
   ["declined and credit denied never execute", () => {
-    const store = createStore("verizon");
+    const store = createStore("carrier_a");
     const blocked = new Set(["PAYMENT_DECLINED", "CREDIT_DENIED_HOLD"]);
     for (const scenario of store.scenarios) {
       const order = getQueue(store)[store.scenarios.indexOf(scenario)];
@@ -33,16 +33,16 @@ const tests = [
     assert.deepEqual(store.executionLog, []);
   }],
   ["happy path recovers", () => {
-    const store = createStore("verizon");
-    const run = runAgent(store, "VZ-CART-1001", { approval: "APPROVE" });
+    const store = createStore("carrier_a");
+    const run = runAgent(store, "CA-CART-1001", { approval: "APPROVE" });
     assert.equal(run.status, "RECOVERED");
     assert.equal(run.approved_action, "REFLOW");
     assert.equal(run.after_state.status_code, "COMPLETE");
-    assert.equal(getQueue(store).some((order) => order.cart_id === "VZ-CART-1001"), false);
+    assert.equal(getQueue(store).some((order) => order.cart_id === "CA-CART-1001"), false);
   }],
   ["retry scenario escalates after two attempts", () => {
-    const store = createStore("verizon");
-    const run = runAgent(store, "VZ-CART-1010", { approval: "APPROVE" });
+    const store = createStore("carrier_a");
+    const run = runAgent(store, "CA-CART-1010", { approval: "APPROVE" });
     assert.equal(run.status, "ESCALATED");
     assert.equal(run.execution_results.length, 2);
     assert.ok(run.escalation_packet);

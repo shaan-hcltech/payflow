@@ -7,6 +7,11 @@
     "start": "node node_demo/server.js",
     "start:py": "py -3.11 python_backend/server.py",
     "record:demo": "node node_demo/scripts/record-demo.mjs",
+    "record:demo:detailed": "node node_demo/scripts/record-detailed-demo.mjs",
+    "remotion:preview": "remotion preview remotion/index.jsx",
+    "remotion:preview:full": "node remotion/scripts/prepare-assets.mjs && remotion preview remotion/index.jsx --public-dir remotion/public",
+    "render:explainer": "remotion render remotion/index.jsx payflow-explainer demo-output/payflow-explainer.mp4",
+    "render:full-video": "node remotion/scripts/prepare-assets.mjs && remotion render remotion/index.jsx payflow-full-video demo-output/payflow-full-video.mp4 --public-dir remotion/public",
     "test": "node node_demo/test/core.test.js"
   },
   "engines": {
@@ -14,6 +19,10 @@
   },
   "devDependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
-    "playwright": "^1.61.1"
+    "@remotion/cli": "^4.0.487",
+    "playwright": "^1.61.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "remotion": "^4.0.487"
   }
 }

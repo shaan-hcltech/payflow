@@ -10,10 +10,10 @@ from payflow.models import (
 )
 
 
-def verizon_order(raw: dict) -> Order:
+def carrier_a_order(raw: dict) -> Order:
     return Order(
         cart_id=raw["cart_id"],
-        carrier_id="verizon",
+        carrier_id="carrier_a",
         channel=raw["channel"],
         order_number=raw["order_number"],
         mtn=raw["mtn"],
@@ -30,7 +30,7 @@ def verizon_order(raw: dict) -> Order:
     )
 
 
-def verizon_payment(raw: dict) -> PaymentEvent:
+def carrier_a_payment(raw: dict) -> PaymentEvent:
     return PaymentEvent(
         cart_id=raw["cart_id"],
         attempt_no=int(raw["attempt_no"]),
@@ -43,7 +43,7 @@ def verizon_payment(raw: dict) -> PaymentEvent:
     )
 
 
-def verizon_state(raw: dict) -> OrderState:
+def carrier_a_state(raw: dict) -> OrderState:
     return OrderState(
         order_number=raw["order_number"],
         status_code=raw["eo_stat_cd"],

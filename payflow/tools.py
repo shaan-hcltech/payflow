@@ -28,14 +28,14 @@ class MockToolLayer:
     def eligibility_check(self, mtn: str):
         return self.connector.eligibility_check(mtn)
 
-    def order360_get_activation_details(self, order_number: str):
+    def order_api_get_activation_details(self, order_number: str):
         return self.connector.pre_validate(order_number)
 
-    def order360_reflow(self, order: Order):
+    def order_api_reflow(self, order: Order):
         return self.connector.execute_action(order, RemediationAction.REFLOW)
 
-    def order360_submit_payment(self, order: Order):
+    def order_api_submit_payment(self, order: Order):
         return self.connector.execute_action(order, RemediationAction.RESUBMIT_PAYMENT)
 
-    def order360_cancel_and_reflow(self, order: Order):
+    def order_api_cancel_and_reflow(self, order: Order):
         return self.connector.execute_action(order, RemediationAction.CANCEL_AND_REFLOW)

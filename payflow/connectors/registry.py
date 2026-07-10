@@ -7,16 +7,16 @@ from payflow.connectors.base import OrderSystemConnector
 
 
 CARRIER_OPTIONS = {
-    "verizon": "Verizon (Order360)",
+    "carrier_a": "Carrier A (Order API)",
     "carrier_b": "Carrier B (OMS)",
 }
 
 
 def create_connector(carrier_id: str) -> OrderSystemConnector:
-    if carrier_id == "verizon":
-        from payflow.connectors.verizon import VerizonOrder360Connector
+    if carrier_id == "carrier_a":
+        from payflow.connectors.carrier_a import CarrierAOrderConnector
 
-        return VerizonOrder360Connector()
+        return CarrierAOrderConnector()
     if carrier_id == "carrier_b":
         from payflow.connectors.carrier_b import CarrierBConnector
 

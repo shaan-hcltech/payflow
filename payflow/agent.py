@@ -203,7 +203,7 @@ class PayFlowAgent:
         activation = self.connector.pre_validate(order.order_number)
         tool_calls.append(
             ToolCall(
-                name="order360_get_activation_details",
+                name="order_api_get_activation_details",
                 inputs={"order_number": order.order_number},
                 output=activation.model_dump(mode="json"),
             )
@@ -343,11 +343,11 @@ class PayFlowAgent:
 
     def _tool_name(self, action: RemediationAction) -> str:
         return {
-            RemediationAction.REFLOW: "order360_reflow",
-            RemediationAction.RESUBMIT_PAYMENT: "order360_submit_payment",
-            RemediationAction.RESUBMIT_BALANCE: "order360_submit_payment",
-            RemediationAction.CANCEL_AND_REFLOW: "order360_cancel_and_reflow",
-        }.get(action, "order360_action")
+            RemediationAction.REFLOW: "order_api_reflow",
+            RemediationAction.RESUBMIT_PAYMENT: "order_api_submit_payment",
+            RemediationAction.RESUBMIT_BALANCE: "order_api_submit_payment",
+            RemediationAction.CANCEL_AND_REFLOW: "order_api_cancel_and_reflow",
+        }.get(action, "order_api_action")
 
 
 def summarize_runs(runs: list[AgentRun]) -> dict:

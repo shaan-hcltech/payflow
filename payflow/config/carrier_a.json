@@ -1,5 +1,5 @@
 {
-  "carrier_id": "verizon",
+  "carrier_id": "carrier_a",
   "actions": {
     "PAYMENT_AUTHORIZED_NOT_POSTED": {"action": "REFLOW", "autonomy": "auto_safe", "executor_allowed": true},
     "SUBMIT_PAYMENT_MISSING": {"action": "RESUBMIT_PAYMENT", "autonomy": "auto_safe", "executor_allowed": true},

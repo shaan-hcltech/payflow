@@ -1,6 +1,6 @@
 # PayFlow Recovery Agent
 
-PayFlow Recovery Agent is a local, offline hackathon demo for CP2 payment and order-completion failures. It shows a transparent operations agent that investigates stuck carts, classifies root cause, applies safety policy, pauses for human approval, executes mock Order360-style remediation, verifies recovery, retries once, and escalates with a WFM/Jira-style packet when automation should stop.
+PayFlow Recovery Agent is a local, offline hackathon demo for CP2 payment and order-completion failures. It shows a transparent operations agent that investigates stuck carts, classifies root cause, applies safety policy, pauses for human approval, executes mock Order API-style remediation, verifies recovery, retries once, and escalates with a WFM/Jira-style packet when automation should stop.
 
 ## Run JavaScript Frontend + Python Backend
 
@@ -63,13 +63,13 @@ pytest
 
 ## Demo Script
 
-1. Select `Verizon (Order360)`.
-2. Choose `VZ-CART-1001 - Order is not fully paid`.
+1. Select `Carrier A (Order API)`.
+2. Choose `CA-CART-1001 - Order is not fully paid`.
 3. Run investigation and show the plan, tool calls, evidence chips, and confidence-scored diagnosis.
 4. Approve the recommended `REFLOW`.
 5. Show before/after state changing to `COMPLETE / RECOVERED`.
 6. Choose a declined or credit-hold cart and show that safety policy routes directly to escalation.
-7. Choose `VZ-CART-1010` to show retry once, then escalation.
+7. Choose `CA-CART-1010` to show retry once, then escalation.
 8. Switch to `Carrier B (OMS)` and run the same core flow on different raw fields.
 
 ## Architecture

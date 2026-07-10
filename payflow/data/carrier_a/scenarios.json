@@ -1,0 +1,135 @@
+[
+  {
+    "id": "CA-aal-auth-not-posted",
+    "demo_label": "AAL recovery: authorized payment not posted",
+    "expected_root_cause": "PAYMENT_AUTHORIZED_NOT_POSTED",
+    "cart": {"cart_id": "CA-CART-1001", "channel": "AAL", "order_number": "CA-ORD-9001", "mtn": "3125550101", "location_code": "CHI-021", "master_ord_no": "MO-7001", "nsa_stack_id": "NSA-AAL-01", "app_num": "APP-501", "amount_due": 142.18, "amount_paid": 142.18, "status": "CP2_STUCK", "created_ts": "2026-06-30T09:12:00", "error_type": "Order is not fully paid"},
+    "payment_events": [{"cart_id": "CA-CART-1001", "attempt_no": 1, "gateway_status": "AUTHORIZED", "auth_amount": 142.18, "posted_to_order": false, "gateway_response": "AUTH_APPROVED", "ts": "2026-06-30T09:13:05"}],
+    "order_state": {"order_number": "CA-ORD-9001", "eo_stat_cd": "PAYMENT_PENDING", "eo_stat_rsn_cd": "NOT_FULLY_PAID", "pending_order_number": null},
+    "traces": [{"cart_id": "CA-CART-1001", "ts": "2026-06-30T09:13:34", "service": "cp2-submit", "level": "ERROR", "message": "Order is not fully paid after payment authorization"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "CA-eup-submit-missing",
+    "demo_label": "EUP recovery: submit payment missing",
+    "expected_root_cause": "SUBMIT_PAYMENT_MISSING",
+    "cart": {"cart_id": "CA-CART-1002", "channel": "EUP", "order_number": "CA-ORD-9002", "mtn": "3125550102", "location_code": "DAL-014", "master_ord_no": "MO-7002", "nsa_stack_id": "NSA-EUP-02", "app_num": "APP-502", "amount_due": 86.75, "amount_paid": 0.0, "status": "CP2_STUCK", "created_ts": "2026-06-30T08:20:00", "error_type": "Submit Payment Missing"},
+    "payment_events": [{"cart_id": "CA-CART-1002", "attempt_no": 1, "gateway_status": "MISSING", "auth_amount": 0.0, "posted_to_order": false, "gateway_response": "NO_SUBMIT_PAYMENT_EVENT", "ts": "2026-06-30T08:21:02"}],
+    "order_state": {"order_number": "CA-ORD-9002", "eo_stat_cd": "SUBMIT_PAYMENT_WAIT", "eo_stat_rsn_cd": "SUBMIT_PAYMENT_MISSING", "pending_order_number": null},
+    "traces": [{"cart_id": "CA-CART-1002", "ts": "2026-06-30T08:21:16", "service": "payment-orchestrator", "level": "WARN", "message": "Submit Payment Missing for CP2 handoff"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "CA-5g-partial",
+    "demo_label": "5G balance recovery: short payment",
+    "expected_root_cause": "PARTIAL_SHORT_PAYMENT",
+    "cart": {"cart_id": "CA-CART-1003", "channel": "5G", "order_number": "CA-ORD-9003", "mtn": "3125550103", "location_code": "SEA-004", "master_ord_no": "MO-7003", "nsa_stack_id": "NSA-5G-03", "app_num": "APP-503", "amount_due": 214.4, "amount_paid": 180.0, "status": "CP2_STUCK", "created_ts": "2026-06-30T07:45:00", "error_type": "Order is not fully paid"},
+    "payment_events": [{"cart_id": "CA-CART-1003", "attempt_no": 1, "gateway_status": "PARTIAL", "auth_amount": 180.0, "posted_to_order": true, "gateway_response": "PARTIAL_AUTH", "ts": "2026-06-30T07:46:11"}],
+    "order_state": {"order_number": "CA-ORD-9003", "eo_stat_cd": "PAYMENT_PENDING", "eo_stat_rsn_cd": "SHORT_PAY", "pending_order_number": null},
+    "traces": [{"cart_id": "CA-CART-1003", "ts": "2026-06-30T07:46:48", "service": "billing-ledger", "level": "ERROR", "message": "Order is not fully paid: balance remains 34.40"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "CA-aal-declined",
+    "demo_label": "AAL safety block: declined payment",
+    "expected_root_cause": "PAYMENT_DECLINED",
+    "cart": {"cart_id": "CA-CART-1004", "channel": "AAL", "order_number": "CA-ORD-9004", "mtn": "3125550104", "location_code": "MIA-018", "master_ord_no": "MO-7004", "nsa_stack_id": "NSA-AAL-04", "app_num": "APP-504", "amount_due": 119.32, "amount_paid": 0.0, "status": "CP2_STUCK", "created_ts": "2026-06-30T06:50:00", "error_type": "Order is not fully paid"},
+    "payment_events": [{"cart_id": "CA-CART-1004", "attempt_no": 1, "gateway_status": "DECLINED", "auth_amount": 0.0, "posted_to_order": false, "gateway_response": "DO_NOT_HONOR", "ts": "2026-06-30T06:51:19"}],
+    "order_state": {"order_number": "CA-ORD-9004", "eo_stat_cd": "PAYMENT_DECLINED", "eo_stat_rsn_cd": "GATEWAY_DECLINE", "pending_order_number": null},
+    "traces": [{"cart_id": "CA-CART-1004", "ts": "2026-06-30T06:51:25", "service": "payment-gateway", "level": "ERROR", "message": "Gateway declined payment authorization"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "CA-eup-credit-denied",
+    "demo_label": "EUP safety block: credit denied",
+    "expected_root_cause": "CREDIT_DENIED_HOLD",
+    "cart": {"cart_id": "CA-CART-1005", "channel": "EUP", "order_number": "CA-ORD-9005", "mtn": "3125550105", "location_code": "PHX-011", "master_ord_no": "MO-7005", "nsa_stack_id": "NSA-EUP-05", "app_num": "APP-505", "amount_due": 305.88, "amount_paid": 305.88, "status": "CP2_STUCK", "created_ts": "2026-06-30T05:30:00", "error_type": "Credit hold"},
+    "payment_events": [{"cart_id": "CA-CART-1005", "attempt_no": 1, "gateway_status": "AUTHORIZED", "auth_amount": 305.88, "posted_to_order": false, "gateway_response": "AUTH_APPROVED", "ts": "2026-06-30T05:31:08"}],
+    "order_state": {"order_number": "CA-ORD-9005", "eo_stat_cd": "HOLD", "eo_stat_rsn_cd": "CREDIT_DENIED", "pending_order_number": null},
+    "traces": [{"cart_id": "CA-CART-1005", "ts": "2026-06-30T05:31:44", "service": "credit-service", "level": "ERROR", "message": "Credit denied hold; remediation must escalate"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "DENIED"}
+  },
+  {
+    "id": "CA-5g-timeout-race",
+    "demo_label": "5G recovery: gateway/order timeout race",
+    "expected_root_cause": "GATEWAY_ORDER_TIMEOUT_RACE",
+    "cart": {"cart_id": "CA-CART-1006", "channel": "5G", "order_number": "CA-ORD-9006", "mtn": "3125550106", "location_code": "ATL-010", "master_ord_no": "MO-7006", "nsa_stack_id": "NSA-5G-06", "app_num": "APP-506", "amount_due": 74.2, "amount_paid": 74.2, "status": "CP2_STUCK", "created_ts": "2026-06-30T04:55:00", "error_type": "Gateway timeout"},
+    "payment_events": [{"cart_id": "CA-CART-1006", "attempt_no": 1, "gateway_status": "AUTHORIZED", "auth_amount": 74.2, "posted_to_order": false, "gateway_response": "AUTH_APPROVED_TIMEOUT_ON_ORDER_POST", "ts": "2026-06-30T04:56:17"}],
+    "order_state": {"order_number": "CA-ORD-9006", "eo_stat_cd": "PAYMENT_PENDING", "eo_stat_rsn_cd": "ORDER_POST_TIMEOUT", "pending_order_number": null},
+    "traces": [{"cart_id": "CA-CART-1006", "ts": "2026-06-30T04:56:40", "service": "order-api-sync", "level": "WARN", "message": "Gateway to order timeout race detected during CP2"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "CA-aal-stale-pending",
+    "demo_label": "AAL unblock: stale pending order",
+    "expected_root_cause": "STALE_PENDING_ORDER_BLOCKING",
+    "cart": {"cart_id": "CA-CART-1007", "channel": "AAL", "order_number": "CA-ORD-9007", "mtn": "3125550107", "location_code": "DEN-012", "master_ord_no": "MO-7007", "nsa_stack_id": "NSA-AAL-07", "app_num": "APP-507", "amount_due": 128.6, "amount_paid": 128.6, "status": "CP2_STUCK", "created_ts": "2026-06-30T03:25:00", "error_type": "Pending order blocking"},
+    "payment_events": [{"cart_id": "CA-CART-1007", "attempt_no": 1, "gateway_status": "AUTHORIZED", "auth_amount": 128.6, "posted_to_order": true, "gateway_response": "AUTH_APPROVED", "ts": "2026-06-30T03:26:10"}],
+    "order_state": {"order_number": "CA-ORD-9007", "eo_stat_cd": "PENDING_BLOCKED", "eo_stat_rsn_cd": "STALE_PENDING", "pending_order_number": "CA-ORD-8111"},
+    "traces": [{"cart_id": "CA-CART-1007", "ts": "2026-06-30T03:26:36", "service": "eligibility", "level": "WARN", "message": "Stale pending order blocking CP2 completion"}],
+    "eligibility": {"inEligibility": {"pendingOrder": true}, "pendingOrderDetail": {"pendingOrderNumber": "CA-ORD-8111"}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "CA-eup-auth-not-posted",
+    "demo_label": "EUP recovery: ledger post missed",
+    "expected_root_cause": "PAYMENT_AUTHORIZED_NOT_POSTED",
+    "cart": {"cart_id": "CA-CART-1008", "channel": "EUP", "order_number": "CA-ORD-9008", "mtn": "3125550108", "location_code": "NYC-002", "master_ord_no": "MO-7008", "nsa_stack_id": "NSA-EUP-08", "app_num": "APP-508", "amount_due": 199.0, "amount_paid": 199.0, "status": "CP2_STUCK", "created_ts": "2026-06-30T02:40:00", "error_type": "Order is not fully paid"},
+    "payment_events": [{"cart_id": "CA-CART-1008", "attempt_no": 1, "gateway_status": "AUTHORIZED", "auth_amount": 199.0, "posted_to_order": false, "gateway_response": "AUTH_APPROVED", "ts": "2026-06-30T02:41:05"}],
+    "order_state": {"order_number": "CA-ORD-9008", "eo_stat_cd": "PAYMENT_PENDING", "eo_stat_rsn_cd": "LEDGER_POST_MISSED", "pending_order_number": null},
+    "traces": [{"cart_id": "CA-CART-1008", "ts": "2026-06-30T02:41:28", "service": "ledger-writer", "level": "ERROR", "message": "Order is not fully paid because payment post event was not persisted"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "CA-5g-submit-missing",
+    "demo_label": "5G recovery: submit event missing",
+    "expected_root_cause": "SUBMIT_PAYMENT_MISSING",
+    "cart": {"cart_id": "CA-CART-1009", "channel": "5G", "order_number": "CA-ORD-9009", "mtn": "3125550109", "location_code": "SFO-005", "master_ord_no": "MO-7009", "nsa_stack_id": "NSA-5G-09", "app_num": "APP-509", "amount_due": 65.0, "amount_paid": 0.0, "status": "CP2_STUCK", "created_ts": "2026-06-30T02:05:00", "error_type": "Submit Payment Missing"},
+    "payment_events": [],
+    "order_state": {"order_number": "CA-ORD-9009", "eo_stat_cd": "SUBMIT_PAYMENT_WAIT", "eo_stat_rsn_cd": "SUBMIT_PAYMENT_MISSING", "pending_order_number": null},
+    "traces": [{"cart_id": "CA-CART-1009", "ts": "2026-06-30T02:05:34", "service": "submit-payment", "level": "ERROR", "message": "Submit Payment Missing; no CP2 payment submit event found"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "CA-aal-reflow-fails",
+    "demo_label": "Retry demo: reflow still failing",
+    "expected_root_cause": "PAYMENT_AUTHORIZED_NOT_POSTED",
+    "remediation_behavior": "fail_after_reflow",
+    "cart": {"cart_id": "CA-CART-1010", "channel": "AAL", "order_number": "CA-ORD-9010", "mtn": "3125550110", "location_code": "CHI-021", "master_ord_no": "MO-7010", "nsa_stack_id": "NSA-AAL-10", "app_num": "APP-510", "amount_due": 155.0, "amount_paid": 155.0, "status": "CP2_STUCK", "created_ts": "2026-06-30T01:15:00", "error_type": "Order is not fully paid"},
+    "payment_events": [{"cart_id": "CA-CART-1010", "attempt_no": 1, "gateway_status": "AUTHORIZED", "auth_amount": 155.0, "posted_to_order": false, "gateway_response": "AUTH_APPROVED", "ts": "2026-06-30T01:16:01"}],
+    "order_state": {"order_number": "CA-ORD-9010", "eo_stat_cd": "PAYMENT_PENDING", "eo_stat_rsn_cd": "NOT_FULLY_PAID", "pending_order_number": null},
+    "traces": [{"cart_id": "CA-CART-1010", "ts": "2026-06-30T01:16:22", "service": "cp2-submit", "level": "ERROR", "message": "Order is not fully paid after payment authorization"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "CA-eup-timeout-race",
+    "demo_label": "EUP recovery: race condition",
+    "expected_root_cause": "GATEWAY_ORDER_TIMEOUT_RACE",
+    "cart": {"cart_id": "CA-CART-1011", "channel": "EUP", "order_number": "CA-ORD-9011", "mtn": "3125550111", "location_code": "BOS-017", "master_ord_no": "MO-7011", "nsa_stack_id": "NSA-EUP-11", "app_num": "APP-511", "amount_due": 242.1, "amount_paid": 242.1, "status": "CP2_STUCK", "created_ts": "2026-06-29T23:50:00", "error_type": "Gateway timeout"},
+    "payment_events": [{"cart_id": "CA-CART-1011", "attempt_no": 1, "gateway_status": "AUTHORIZED", "auth_amount": 242.1, "posted_to_order": false, "gateway_response": "ORDER_POST_RACE", "ts": "2026-06-29T23:51:06"}],
+    "order_state": {"order_number": "CA-ORD-9011", "eo_stat_cd": "PAYMENT_PENDING", "eo_stat_rsn_cd": "RACE_CONDITION", "pending_order_number": null},
+    "traces": [{"cart_id": "CA-CART-1011", "ts": "2026-06-29T23:51:33", "service": "order-api-sync", "level": "WARN", "message": "Race condition between gateway auth and order post"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "READY"}
+  },
+  {
+    "id": "CA-5g-credit-hold",
+    "demo_label": "5G safety block: activation denied",
+    "expected_root_cause": "CREDIT_DENIED_HOLD",
+    "cart": {"cart_id": "CA-CART-1012", "channel": "5G", "order_number": "CA-ORD-9012", "mtn": "3125550112", "location_code": "LAX-033", "master_ord_no": "MO-7012", "nsa_stack_id": "NSA-5G-12", "app_num": "APP-512", "amount_due": 92.45, "amount_paid": 92.45, "status": "CP2_STUCK", "created_ts": "2026-06-29T22:42:00", "error_type": "Credit hold"},
+    "payment_events": [{"cart_id": "CA-CART-1012", "attempt_no": 1, "gateway_status": "AUTHORIZED", "auth_amount": 92.45, "posted_to_order": false, "gateway_response": "AUTH_APPROVED", "ts": "2026-06-29T22:43:11"}],
+    "order_state": {"order_number": "CA-ORD-9012", "eo_stat_cd": "HOLD", "eo_stat_rsn_cd": "CREDIT_HOLD", "pending_order_number": null},
+    "traces": [{"cart_id": "CA-CART-1012", "ts": "2026-06-29T22:43:41", "service": "activation", "level": "ERROR", "message": "Activation denied due to credit hold"}],
+    "eligibility": {"inEligibility": {"pendingOrder": false}, "pendingOrderDetail": {"pendingOrderNumber": null}},
+    "activation_details": {"activationStatus": "DENIED"}
+  }
+]

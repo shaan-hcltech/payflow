@@ -394,9 +394,9 @@ with portability_col:
     st.markdown("## Carrier Abstraction")
     st.table(
         [
-            {"canonical": "order_number", "Verizon": "order_number", "Carrier B": "oms_order_id"},
-            {"canonical": "status_code", "Verizon": "eo_stat_cd", "Carrier B": "ord_status_code"},
-            {"canonical": "master_order_number", "Verizon": "master_ord_no", "Carrier B": "parent_order_id"},
-            {"canonical": "stack_id", "Verizon": "nsa_stack_id", "Carrier B": "bundle_id"},
+            {"canonical": "order_number", "carrier_a": "order_number", "Carrier B": "oms_order_id"},
+            {"canonical": "status_code", "carrier_a": "eo_stat_cd", "Carrier B": "ord_status_code"},
+            {"canonical": "master_order_number", "carrier_a": "master_ord_no", "Carrier B": "parent_order_id"},
+            {"canonical": "stack_id", "carrier_a": "nsa_stack_id", "Carrier B": "bundle_id"},
         ]
     )

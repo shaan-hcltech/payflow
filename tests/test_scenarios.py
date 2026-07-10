@@ -13,8 +13,8 @@ def make_agent(carrier_id: str):
     return connector, PayFlowAgent(connector, RemediationPolicy(load_config(carrier_id)))
 
 
-def test_verizon_scenarios_match_expected_root_cause():
-    connector, agent = make_agent("verizon")
+def test_carrier_a_scenarios_match_expected_root_cause():
+    connector, agent = make_agent("carrier_a")
     for order in connector.get_failed_orders():
         run = agent.inspect(order.cart_id)
         assert run.diagnosis is not None
@@ -30,7 +30,7 @@ def test_carrier_b_scenarios_match_expected_root_cause():
 
 
 def test_declined_and_credit_denied_never_reach_executor():
-    connector, agent = make_agent("verizon")
+    connector, agent = make_agent("carrier_a")
     blocked = [
         order
         for order in connector.get_failed_orders()
@@ -49,19 +49,19 @@ def test_declined_and_credit_denied_never_reach_executor():
 
 
 def test_approved_aal_authorized_not_posted_reflows_and_recovers():
-    connector, agent = make_agent("verizon")
-    run = agent.run("VZ-CART-1001", approval="APPROVE")
+    connector, agent = make_agent("carrier_a")
+    run = agent.run("CA-CART-1001", approval="APPROVE")
 
     assert run.status == RunStatus.RECOVERED
     assert run.approved_action == RemediationAction.REFLOW
     assert run.after_state is not None
     assert run.after_state.status_code == "COMPLETE"
-    assert connector.execution_log == [{"cart_id": "VZ-CART-1001", "action": "REFLOW"}]
+    assert connector.execution_log == [{"cart_id": "CA-CART-1001", "action": "REFLOW"}]
 
 
 def test_still_failing_reflow_retries_once_then_escalates():
-    connector, agent = make_agent("verizon")
-    run = agent.run("VZ-CART-1010", approval="APPROVE")
+    connector, agent = make_agent("carrier_a")
+    run = agent.run("CA-CART-1010", approval="APPROVE")
 
     assert run.status == RunStatus.ESCALATED
     assert len(run.execution_results) == 2
@@ -70,8 +70,8 @@ def test_still_failing_reflow_retries_once_then_escalates():
 
 
 def test_override_action_is_traceable():
-    _, agent = make_agent("verizon")
-    run = agent.run("VZ-CART-1001", approval="APPROVE", override_action=RemediationAction.RESUBMIT_PAYMENT)
+    _, agent = make_agent("carrier_a")
+    run = agent.run("CA-CART-1001", approval="APPROVE", override_action=RemediationAction.RESUBMIT_PAYMENT)
 
     assert run.status == RunStatus.RECOVERED
     assert run.approved_action == RemediationAction.RESUBMIT_PAYMENT
@@ -80,5 +80,5 @@ def test_override_action_is_traceable():
 
 def test_agent_core_has_no_direct_carrier_imports():
     source = (Path(__file__).resolve().parents[1] / "payflow" / "agent.py").read_text().lower()
-    assert "connectors.verizon" not in source
+    assert "connectors.carrier_a" not in source
     assert "connectors.carrier_b" not in source

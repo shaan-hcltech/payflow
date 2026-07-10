@@ -6,7 +6,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 
 export const carriers = {
-  verizon: "Verizon (Order360)",
+  carrier_a: "Carrier A (Order API)",
   carrier_b: "Carrier B (OMS)"
 };
 
@@ -122,7 +122,7 @@ export function runAgent(store, cartId, { approval = "PENDING", overrideAction =
     activation_status: scenario.activation_details.activationStatus,
     raw: scenario.activation_details
   };
-  toolCalls.push(tool("order360_get_activation_details", { order_number: order.order_number }, activation));
+  toolCalls.push(tool("order_api_get_activation_details", { order_number: order.order_number }, activation));
   if (activation.activation_status === "DENIED") {
     const packet = escalationPacket(order, diagnosis.evidence, [], "Pre-validation returned activationStatus DENIED.");
     steps.push(step("Executor", "Executor refused to act because activation pre-validation failed.", activation));
@@ -297,7 +297,7 @@ function setRecovered(scenario) {
 }
 
 function toOrder(carrierId, raw) {
-  if (carrierId === "verizon") {
+  if (carrierId === "carrier_a") {
     return order({
       cart_id: raw.cart_id,
       carrier_id: carrierId,
@@ -340,7 +340,7 @@ function order(data) {
 }
 
 function toPayment(carrierId, raw) {
-  if (carrierId === "verizon") {
+  if (carrierId === "carrier_a") {
     return {
       cart_id: raw.cart_id,
       attempt_no: raw.attempt_no,
@@ -365,7 +365,7 @@ function toPayment(carrierId, raw) {
 }
 
 function toState(carrierId, raw) {
-  if (carrierId === "verizon") {
+  if (carrierId === "carrier_a") {
     return {
       order_number: raw.order_number,
       status_code: raw.eo_stat_cd,
@@ -384,7 +384,7 @@ function toState(carrierId, raw) {
 }
 
 function toTrace(carrierId, raw) {
-  if (carrierId === "verizon") {
+  if (carrierId === "carrier_a") {
     return { cart_id: raw.cart_id, ts: raw.ts, service: raw.service, level: raw.level, message: raw.message, raw: structuredClone(raw) };
   }
   return { cart_id: raw.basket_ref, ts: raw.created_at, service: raw.component, level: raw.severity, message: raw.text, raw: structuredClone(raw) };
@@ -479,9 +479,9 @@ function escalationPacket(order, evidence, actionsAttempted, recommendation) {
 
 function toolName(action) {
   return {
-    REFLOW: "order360_reflow",
-    RESUBMIT_PAYMENT: "order360_submit_payment",
-    RESUBMIT_BALANCE: "order360_submit_payment",
-    CANCEL_AND_REFLOW: "order360_cancel_and_reflow"
-  }[action] || "order360_action";
+    REFLOW: "order_api_reflow",
+    RESUBMIT_PAYMENT: "order_api_submit_payment",
+    RESUBMIT_BALANCE: "order_api_submit_payment",
+    CANCEL_AND_REFLOW: "order_api_cancel_and_reflow"
+  }[action] || "order_api_action";
 }

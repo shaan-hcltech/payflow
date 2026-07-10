@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 CARRIERS = {
-    "verizon": "Verizon (Order360)",
+    "carrier_a": "Carrier A (Order API)",
     "carrier_b": "Carrier B (OMS)",
 }
 
@@ -110,7 +110,7 @@ def run_agent(store: dict, cart_id: str, approval: str = "PENDING", override_act
         "activation_status": scenario["activation_details"]["activationStatus"],
         "raw": scenario["activation_details"],
     }
-    tool_calls.append(_tool("order360_get_activation_details", {"order_number": order["order_number"]}, activation))
+    tool_calls.append(_tool("order_api_get_activation_details", {"order_number": order["order_number"]}, activation))
     if activation["activation_status"] == "DENIED":
         packet = _packet(order, diagnosis["evidence"], [], "Pre-validation returned activationStatus DENIED.")
         steps.append(_step("Executor", "Executor refused to act because activation pre-validation failed.", activation))
@@ -270,7 +270,7 @@ def _set_recovered(scenario: dict) -> None:
 
 
 def _to_order(carrier_id: str, raw: dict) -> dict:
-    if carrier_id == "verizon":
+    if carrier_id == "carrier_a":
         order = {
             "cart_id": raw["cart_id"],
             "carrier_id": carrier_id,
@@ -311,7 +311,7 @@ def _to_order(carrier_id: str, raw: dict) -> dict:
 
 
 def _to_payment(carrier_id: str, raw: dict) -> dict:
-    if carrier_id == "verizon":
+    if carrier_id == "carrier_a":
         return {
             "cart_id": raw["cart_id"],
             "attempt_no": raw["attempt_no"],
@@ -335,7 +335,7 @@ def _to_payment(carrier_id: str, raw: dict) -> dict:
 
 
 def _to_state(carrier_id: str, raw: dict) -> dict:
-    if carrier_id == "verizon":
+    if carrier_id == "carrier_a":
         return {
             "order_number": raw["order_number"],
             "status_code": raw["eo_stat_cd"],
@@ -353,7 +353,7 @@ def _to_state(carrier_id: str, raw: dict) -> dict:
 
 
 def _to_trace(carrier_id: str, raw: dict) -> dict:
-    if carrier_id == "verizon":
+    if carrier_id == "carrier_a":
         return {"cart_id": raw["cart_id"], "ts": raw["ts"], "service": raw["service"], "level": raw["level"], "message": raw["message"], "raw": copy.deepcopy(raw)}
     return {"cart_id": raw["basket_ref"], "ts": raw["created_at"], "service": raw["component"], "level": raw["severity"], "message": raw["text"], "raw": copy.deepcopy(raw)}
 
@@ -447,11 +447,11 @@ def _tool(name: str, inputs: dict, output: dict) -> dict:
 
 def _tool_name(action: str) -> str:
     return {
-        "REFLOW": "order360_reflow",
-        "RESUBMIT_PAYMENT": "order360_submit_payment",
-        "RESUBMIT_BALANCE": "order360_submit_payment",
-        "CANCEL_AND_REFLOW": "order360_cancel_and_reflow",
-    }.get(action, "order360_action")
+        "REFLOW": "order_api_reflow",
+        "RESUBMIT_PAYMENT": "order_api_submit_payment",
+        "RESUBMIT_BALANCE": "order_api_submit_payment",
+        "CANCEL_AND_REFLOW": "order_api_cancel_and_reflow",
+    }.get(action, "order_api_action")
 
 
 def _read_json(path: Path) -> object:

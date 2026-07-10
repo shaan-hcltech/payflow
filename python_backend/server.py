@@ -27,7 +27,7 @@ class Handler(BaseHTTPRequestHandler):
             self._json(CARRIERS)
             return
         if parsed.path == "/api/queue":
-            carrier = parse_qs(parsed.query).get("carrier", ["verizon"])[0]
+            carrier = parse_qs(parsed.query).get("carrier", ["carrier_a"])[0]
             store = store_for(carrier)
             self._json({"carrier_id": carrier, "display_name": store["display_name"], "orders": get_queue(store)})
             return
@@ -40,18 +40,18 @@ class Handler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         body = self._body()
         if parsed.path == "/api/inspect":
-            self._json(inspect(store_for(body.get("carrier", "verizon")), body["cartId"]))
+            self._json(inspect(store_for(body.get("carrier", "carrier_a")), body["cartId"]))
             return
         if parsed.path == "/api/run":
             self._json(run_agent(
-                store_for(body.get("carrier", "verizon")),
+                store_for(body.get("carrier", "carrier_a")),
                 body["cartId"],
                 approval=body.get("approval", "PENDING"),
                 override_action=body.get("overrideAction"),
             ))
             return
         if parsed.path == "/api/batch":
-            self._json(run_batch(body.get("carrier", "verizon")))
+            self._json(run_batch(body.get("carrier", "carrier_a")))
             return
         if parsed.path == "/api/reset":
             carrier = body.get("carrier")

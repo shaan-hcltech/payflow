@@ -34,7 +34,7 @@ async function handleApi(req, res, url) {
     return;
   }
   if (url.pathname === "/api/queue") {
-    const store = storeFor(url.searchParams.get("carrier") || "verizon");
+    const store = storeFor(url.searchParams.get("carrier") || "carrier_a");
     sendJson(res, 200, { carrier_id: store.carrierId, display_name: store.displayName, orders: getQueue(store) });
     return;
   }
@@ -53,7 +53,7 @@ async function handleApi(req, res, url) {
   }
   if (url.pathname === "/api/batch") {
     const body = await readBody(req);
-    sendJson(res, 200, runBatch(body.carrier || "verizon"));
+    sendJson(res, 200, runBatch(body.carrier || "carrier_a"));
     return;
   }
   sendJson(res, 404, { error: "Unknown API route" });

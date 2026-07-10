@@ -19,7 +19,7 @@ if (existsSync(rawDir)) rmSync(rawDir, { recursive: true, force: true });
 mkdirSync(rawDir, { recursive: true });
 
 await ensureServer();
-await resetCarrier("verizon");
+await resetCarrier("carrier_a");
 await resetCarrier("carrier_b");
 
 const browser = await chromium.launch({ headless: true });
@@ -39,8 +39,8 @@ try {
   await caption(page, "The queue shows 12 stuck carts, amount at risk, and manual minutes avoided.");
   await wait(2200);
 
-  await selectCart(page, "VZ-CART-1001");
-  await caption(page, "Scenario 1: recoverable Verizon cart with payment/order mismatch evidence.");
+  await selectCart(page, "CA-CART-1001");
+  await caption(page, "Scenario 1: recoverable Carrier A cart with payment/order mismatch evidence.");
   await wait(900);
   await clickId(page, "inspectBtn");
   await caption(page, "The agent plans, calls tools, diagnoses, checks safety, then waits for human approval.");
@@ -52,7 +52,7 @@ try {
   await caption(page, "Before and after state proves the remediation changed the order outcome.");
   await wait(2500);
 
-  await selectCart(page, "VZ-CART-1005");
+  await selectCart(page, "CA-CART-1005");
   await openTab(page, "Reasoning");
   await caption(page, "Scenario 2: credit-hold safety block. The agent escalates instead of executing.");
   await wait(900);
@@ -62,7 +62,7 @@ try {
   await caption(page, "The escalation packet carries the evidence a WFM or Jira team needs.");
   await wait(3200);
 
-  await selectCart(page, "VZ-CART-1010");
+  await selectCart(page, "CA-CART-1010");
   await openTab(page, "Reasoning");
   await caption(page, "Scenario 3: retry discipline. The agent retries once, then escalates with proof.");
   await wait(900);

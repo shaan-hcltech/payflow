@@ -1,6 +1,6 @@
 const state = {
   carriers: {},
-  carrier: "verizon",
+  carrier: "carrier_a",
   queue: [],
   cartId: null,
   run: null,
@@ -334,12 +334,12 @@ function renderMenus() {
 
 function renderCarrierMenu() {
   const label = state.carriers[state.carrier] || "Select carrier";
-  $("carrierTrigger").innerHTML = triggerHtml(label, state.carrier === "verizon" ? "Reference connector" : "Portable OMS connector");
+  $("carrierTrigger").innerHTML = triggerHtml(label, state.carrier === "carrier_a" ? "Reference connector" : "Portable OMS connector");
   setMenuOpen("carrierTrigger", "carrier");
   $("carrierMenu").innerHTML = Object.entries(state.carriers).map(([id, name]) => menuItem({
     id,
     title: name,
-    meta: id === "verizon" ? "Order360 reference" : "Different schema, same core",
+    meta: id === "carrier_a" ? "Order API reference" : "Different schema, same core",
     selected: id === state.carrier,
     onClick: `select-carrier:${id}`
   })).join("");

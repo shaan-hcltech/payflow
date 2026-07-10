@@ -4,12 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PayFlow Recovery Agent</title>
+    <link rel="icon" type="image/png" href="/assets/payflow-logo-100.png">
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-mark">P</div>
+        <img class="brand-mark" src="/assets/payflow-logo-100.png" alt="" width="34" height="34">
         <div>
           <strong>PayFlow</strong>
           <span>Recovery workspace</span>
@@ -20,7 +21,7 @@
         <div class="section-label">Carrier</div>
         <div class="menu-control" data-menu-root="carrier">
           <button id="carrierTrigger" class="menu-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
-            <span class="trigger-main">Verizon (Order360)</span>
+            <span class="trigger-main">Carrier A (Order API)</span>
             <span class="trigger-meta">Reference connector</span>
           </button>
           <div id="carrierMenu" class="menu-popover" role="listbox"></div>
@@ -148,7 +149,7 @@
               <summary>View normalized fields</summary>
               <table class="schema-table">
                 <tbody>
-                  <tr><th>Canonical</th><th>Verizon</th><th>Carrier B</th></tr>
+                  <tr><th>Canonical</th><th>Carrier A</th><th>Carrier B</th></tr>
                   <tr><td>order_number</td><td>order_number</td><td>oms_order_id</td></tr>
                   <tr><td>status_code</td><td>eo_stat_cd</td><td>ord_status_code</td></tr>
                   <tr><td>master_order</td><td>master_ord_no</td><td>parent_order_id</td></tr>

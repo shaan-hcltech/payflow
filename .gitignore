@@ -1,5 +1,7 @@
 node_modules/
 demo-output/
+remotion/public/*.mp4
+remotion/public/*.webm
 
 __pycache__/
 *.py[cod]
